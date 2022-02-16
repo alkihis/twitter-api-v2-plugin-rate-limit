@@ -34,6 +34,7 @@ export class TwitterApiRateLimitMemoryStore implements ITwitterApiRateLimitStore
     const timeUntilResetAndNow = (args.rateLimit.reset * 1000) - Date.now();
     const normalizedTime = timeUntilResetAndNow < 0 ? 0 : timeUntilResetAndNow;
 
+    // Item is deleted automatically when {args.rateLimit.reset} happens
     this.cache[method][endpoint] = {
       rateLimit: args.rateLimit,
       timeout: setTimeout(() => {
