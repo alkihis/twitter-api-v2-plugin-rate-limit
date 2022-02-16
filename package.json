@@ -1,0 +1,36 @@
+{
+  "name": "@twitter-api-v2/plugin-rate-limit",
+  "version": "1.0.0",
+  "description": "Rate limit plugin for twitter-api-v2",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "keywords": [
+    "twitter",
+    "api",
+    "plugin"
+  ],
+  "scripts": {
+    "build": "tsc",
+    "lint": "eslint --ext \".ts\" --ignore-path .gitignore ."
+  },
+  "repository": "github:alkihis/twitter-api-v2-plugin-rate-limit",
+  "author": "Louis Béranger <beranger.louis.bio+twitterapi@gmail.com> (https://twitter.com/alkihis)",
+  "license": "Apache-2.0",
+  "files": [
+    "dist"
+  ],
+  "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^4.28.5",
+    "@typescript-eslint/parser": "^4.28.5",
+    "chai": "^4.3.4",
+    "dotenv": "^8.2.0",
+    "eslint": "^7.31.0",
+    "typescript": "^4.2.4"
+  },
+  "bugs": {
+    "url": "https://github.com/alkihis/twitter-api-v2-plugin-rate-limit/issues"
+  },
+  "peerDependencies": {
+    "twitter-api-v2": "^1.11.0"
+  }
+}
