@@ -1,5 +1,5 @@
 import { TwitterApiRateLimitMemoryStore } from './memory-store';
-import type { ITwitterApiClientPlugin, ITwitterApiAfterRequestHookArgs, TwitterRateLimit } from 'twitter-api-v2';
+import type { ITwitterApiClientPlugin, ITwitterApiAfterRequestHookArgs, TwitterRateLimit, ITwitterApiResponseErrorHookArgs } from 'twitter-api-v2';
 import type { ITwitterApiRateLimitStore } from './types';
 
 const prefixes = {
@@ -12,6 +12,8 @@ const prefixes = {
 
 type TAvailablePrefix = keyof typeof prefixes;
 
+// - Base plugin -
+
 export class TwitterApiRateLimitPlugin implements ITwitterApiClientPlugin {
   protected _v1Plugin?: TwitterApiRateLimitPluginWithPrefixV1;
   protected _v2Plugin?: TwitterApiRateLimitPluginWithPrefixV2;
@@ -23,6 +25,19 @@ export class TwitterApiRateLimitPlugin implements ITwitterApiClientPlugin {
 
   public async onAfterRequest(args: ITwitterApiAfterRequestHookArgs) {
     const rateLimit = args.response.rateLimit;
+
+    if (rateLimit) {
+      await this.store.set({
+        plugin: this,
+        endpoint: args.computedParams.rawUrl,
+        method: args.params.method.toUpperCase(),
+        rateLimit,
+      });
+    }
+  }
+
+  public async onResponseError(args: ITwitterApiResponseErrorHookArgs) {
+    const rateLimit = args.error.rateLimit;
 
     if (rateLimit) {
       await this.store.set({
@@ -83,6 +98,8 @@ export class TwitterApiRateLimitPlugin implements ITwitterApiClientPlugin {
     return this._v2Plugin = new TwitterApiRateLimitPluginWithPrefixV2(this, 'v2');
   }
 }
+
+// - Extensions / Getters -
 
 export class TwitterApiRateLimitPluginWithPrefix {
   constructor(public plugin: TwitterApiRateLimitPlugin, protected prefix: TAvailablePrefix) {}
