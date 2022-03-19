@@ -1,6 +1,6 @@
 {
   "name": "@twitter-api-v2/plugin-rate-limit",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Rate limit plugin for twitter-api-v2",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
